@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main',
+                url: 'https://github.com/Kunalsk36/my-node-app-jenkins.git'
+            }
+        }
+        
+        stage('Install Dependencies'){
+            steps{
+                bat 'npm install'
+            }
+        }
+        
+        stage('Deploy'){
+            steps{
+                bat 'npm start'
+            }
+        }
+    }
+    
+    post{
+        failure{
+            echo "pipeline failed! Check logs."
+        }
+        success{
+            echo "Pipeline successed! ap is running"
+        }
+    }
+}
